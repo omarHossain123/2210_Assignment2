@@ -80,16 +80,17 @@ public class Interface {
                 // Infer type based on file extension or general data format
                 if (typeDataLine.endsWith(".wav") || typeDataLine.endsWith(".mid")) {
                     type = 3; // Sound file
-                } else if (typeDataLine.endsWith(".jpg")) {
-                    type = 6; // Image file
-                } else if (typeDataLine.endsWith(".gif")) {
-                    type = 7; // Animated image file
+                } else if (typeDataLine.endsWith(".jpg") || typeDataLine.endsWith(".gif")) {
+                    type = 7; // Image file (handle .gif, .jpg, etc.)
                 } else if (typeDataLine.endsWith(".html")) {
                     type = 8; // Webpage URL
+                } else if (typeDataLine.endsWith(".png") || typeDataLine.endsWith(".jpeg")) {
+                    type = 7; // Image file (adding more extensions)
                 } else {
                     type = 1; // General definition
+                    data = typeDataLine; // Keep the data as is for general types
+                    break;
                 }
-                break;
         }
 
         key = new Key(label, type);
@@ -132,7 +133,7 @@ public class Interface {
                     int type = Integer.parseInt(st.nextToken());
                     deleteRecord(dictionary, word, type);
                 } else {
-                    System.out.println("Invalid command format.");
+                    System.out.println("Invalid command");
                 }
                 break;
             case "add":
@@ -141,7 +142,7 @@ public class Interface {
                     String data = st.nextToken("").trim();
                     addRecord(dictionary, word, type, data);
                 } else {
-                    System.out.println("Invalid command format.");
+                    System.out.println("Invalid command");
                 }
                 break;
             case "first":
@@ -161,7 +162,7 @@ public class Interface {
         if (record != null) {
             System.out.println(record.getDataItem());
         } else {
-            System.out.println(notFoundMessage);
+            System.out.println("The word " + label + " is not in the dictionary");
         }
     }
 
